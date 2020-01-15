@@ -7,10 +7,10 @@ CFLAG = -std=gnu99 \
 	 -Wl,-T main.ld -nostartfiles
 TARGET := ./main.bin
 SOURCE := ./source/*.c
-
+USB := ./usb/*.c
 
 all: $(TARGET)
-$(TARGET):$(SOURCE)
+$(TARGET):$(SOURCE) $(USB)
 	$(CC) $(CFLAG)  -o main.elf  $^
 	$(CROSS_COMPILER)objcopy -Obinary main.elf $(TARGET)
 	$(CROSS_COMPILER)objdump -x -S main.elf > main.list

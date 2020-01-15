@@ -7,7 +7,7 @@ CFLAG = -std=gnu99 \
 	 -Wl,-T main.ld -nostartfiles
 TARGET := ./main.bin
 SOURCE := ./source/*.c
-USB := ./usb/*.c
+USB := ./usb/source/*.c
 
 all: $(TARGET)
 $(TARGET):$(SOURCE) $(USB)

@@ -156,4 +156,10 @@
 #define FS_DOEPTSIZ3  (__REG(USB_OTG_FS_BASE + 0xB70))
 #define FS_PCGCTL     (__REG(USB_OTG_FS_BASE + 0xE00))
 
+//EXTI
+#define EXTI_BASE     (0x40013C00UL)
+#define EXTI_RTSR     (__REG(EXTI_BASE + 0x08))
+#define EXTI_FTSR     (__REG(EXTI_BASE + 0x0C))
+//NVIC
+
 #endif

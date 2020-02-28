@@ -41,9 +41,59 @@
 #define OHTER_SPEED     7
 #define INTERFACE_POWER 8
 
+/*************enum*******************************/
+typedef enum event {
+    HUB_CONFIGURED,
+    HUB_DECONFIGURED,
+    BUS_INACTVE,
+    BUS_ACTIVE,
+    RX_RESET,
+    POWER_INTERRUPT,
+    ADDRESS_ASSIGNED,
+    DEVICE_CONFIG,
+    DEVICE_DECONFIG,
+} event_enum;
+typedef enum __device_state {
+    SUSPENDED,
+    ATTACHED,
+    POWERED,
+    DEFAULT,
+    ADDRESS,
+    CONFIGURED,
+    RESET,
+} device_state_enum;
+/*************standard descriptor****************/
 #pragma pack(push)
 #pragma pack(1)
-typedef struct __interface_descriptor_t {
+typedef struct __device_descriptor {
+    uint8_t b_length;
+    uint8_t b_descriptor_type;
+    uint16_t bcd_usb;
+    uint8_t b_device_class;
+    uint8_t b_device_sub_class;
+    uint8_t b_device_protocol;
+    uint8_t b_max_packet_size;
+    uint16_t id_vendor;
+    uint16_t id_product;
+    uint16_t bcd_device;
+    int8_t i_manufacturer;
+    uint8_t i_product;
+    uint8_t i_serail_number;
+    uint8_t b_num_configurations
+} device_descriptor_t;
+
+typedef struct __configuration_descriptor {
+    uint8_t b_length;
+    uint8_t b_descriptor_type;
+    uint16_t w_total_length;
+    uint8_t b_num_interfaces;
+    uint8_t b_configuration_value;
+    uint8_t i_configuration;
+    uint8_t bm_attrubutes;
+    uint8_t b_max_power;
+} configuration_descriptor_t;
+
+typedef struct __interface_descriptor {
     uint8_t b_length;
     uint8_t b_descriptor_type;
     uint8_t b_interface_num;
@@ -54,6 +104,6 @@ typedef struct __interface_descriptor_t {
     uint8_t b_interface_protocol;
     uint8_t i_interface;
 } interface_descriptor_t;
-
 #pragma pack(pop)
+
 #endif

@@ -104,6 +104,15 @@ typedef struct __interface_descriptor {
     uint8_t b_interface_protocol;
     uint8_t i_interface;
 } interface_descriptor_t;
+typedef struct __endpoint_descriptor{
+    uint8_t b_length;
+    uint8_t b_descriptor_type;
+    uint8_t b_endpoint_address;
+    uint8_t bm_attributes;
+    uint16_t w_max_packet_size;
+    uint8_t b_interval;
+} endpoint_descriptor_t;
+
 #pragma pack(pop)
 
 #endif

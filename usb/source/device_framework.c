@@ -66,7 +66,6 @@ void handle_device_descriptor(){
 }
 
 void handle_config_descriptor(){
-
 }
 
 void RX_resume(){
@@ -76,5 +75,5 @@ void handle_transit_default(){
 
 }
 void handle_power_interrupt(){
-    
+
 }

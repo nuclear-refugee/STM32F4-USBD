@@ -1,12 +1,13 @@
-# USB 2.0 HID stack on stm32f407
+# USB stack 
 ##  overview
-
-### Spec :
+implement a bare metal usb stack on MCU . Now using STM32F407.
+1. develope hid keyboard device
+2. add other usb function like OTG, host and other usb device class.
+### reference Spec :
 https://www.usb.org/sites/default/files/usb_20_20190524.zip
 [USB PROTOCOLs](https://beyondlogic.org/usbnutshell/usb1.shtml)
 
 ### Dev Kit : 
-
 [stm32f407_discovery](https://www.st.com/content/ccc/resource/technical/document/user_manual/70/fe/4a/3f/e7/e1/4f/7d/DM00039084.pdf/files/DM00039084.pdf/jcr:content/translations/en.DM00039084.pdf)
 [stm32f407VG](https://www.st.com/content/st_com/en/products/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus/stm32-high-performance-mcus/stm32f4-series/stm32f407-417/stm32f407vg.html)
 
@@ -19,7 +20,7 @@ https://www.usb.org/sites/default/files/usb_20_20190524.zip
 [OpenOCD Tutorial](https://ithelp.ithome.com.tw/articles/10192744)
 [OpenOCD 4 Windows](https://gnutoolchains.com/arm-eabi/openocd/)
 
-### Repo : 
+### raw Repo : 
 
 [GitURL](https://github.com/a910184/JFF.git)
 
@@ -117,9 +118,9 @@ FIFO REG   待完成 (在RCC_AHB REGISTER下)
 
 
 
-# USBD ENUM INITIAL STEPS
-
-1. Setup Transcation (OUT)
+## USB Transfer
+### Control Transfer
+- Setup Transcation (OUT)
 - Token
 ![](https://i.imgur.com/2CfZGa3.png)
 - Data
@@ -127,23 +128,24 @@ FIFO REG   待完成 (在RCC_AHB REGISTER下)
 - HANDSHAKE
 ![](https://i.imgur.com/kw1NDCp.png)
 
-2. GET DESCRIPTOR (IN)
+## USB ENUMERTATION
+- GET DESCRIPTOR (IN)
 ![](https://i.imgur.com/xQKHmUa.png)
 ↑NAK means there are no data to be sent,and no address / endpoint cauz of init condition.
 The HOST will poll and poll in token to DEVICE until it answers the call.
 If not , the DEVICE will be recongnized as offline.
 ![](https://i.imgur.com/sBellyU.png)
 
-3. SET ADDRESS (OUT)
+- SET ADDRESS (OUT)
 ![](https://i.imgur.com/Ktl0x3L.png)
 
-4. GET CONFIGURATION (IN) 
+- GET CONFIGURATION (IN) 
 ![](https://i.imgur.com/imL3pLE.png)
 
 
-5. GET INTERFACE (IN)
+- GET INTERFACE (IN)
 ![](https://i.imgur.com/8qKq78s.png)
 ![](https://i.imgur.com/E31RlPy.png)
 ![](https://i.imgur.com/XteXgUA.png)
 
-6. GET ENDPOINT (IN)
+- GET ENDPOINT (IN)

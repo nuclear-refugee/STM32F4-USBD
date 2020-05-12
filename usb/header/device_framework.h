@@ -79,7 +79,7 @@ typedef struct __device_descriptor {
     int8_t i_manufacturer;
     uint8_t i_product;
     uint8_t i_serail_number;
-    uint8_t b_num_configurations
+    uint8_t b_num_configurations;
 } device_descriptor_t;
 
 typedef struct __configuration_descriptor {
@@ -114,5 +114,10 @@ typedef struct __endpoint_descriptor{
 } endpoint_descriptor_t;
 
 #pragma pack(pop)
-
+extern device_descriptor_t usb_device_descriptor;
+extern interface_descriptor_t interface_descriptor ;
+extern endpoint_descriptor_t endpoint1_descriptor ;
+extern endpoint_descriptor_t endpoint2_descriptor ;
+extern endpoint_descriptor_t endpoint3_descriptor ;
+extern configuration_descriptor_t usb_configuration_descriptor ;
 #endif

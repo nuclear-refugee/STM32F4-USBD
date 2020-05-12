@@ -1,6 +1,8 @@
 #ifndef __USB_HAL__
 #define __USB_HAL__
 #include "device_framework.h"
+#include "driver.h"
+
 #pragma pack(push)
 #pragma pack(1)
 typedef struct  __usb_device{

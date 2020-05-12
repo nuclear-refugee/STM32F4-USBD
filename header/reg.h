@@ -21,6 +21,10 @@
 #define SWHSI    (0 << 0)
 #define SWHSE    (1 << 0)
 #define SWPLL    (2 << 0)
+// HSE 8 Mhz
+// f(VCO clock) = f(PLL clock input) × (PLLN / PLLM)
+// f(PLL general clock output) = f(VCO clock) / PLLP
+// f(USB OTG FS, SDIO, RNG clock output) = f(VCO clock) / PLLQ
 /************PLL config register reset value: 0x2400
  * 3010************************/
 /********2<=PLLQ<=15 ;PLLP 2,4,6,8;

@@ -35,44 +35,49 @@
  * - At this point, the device is ready to accept SOF packets
  *   and perform control transfers on control endpoint 0.
  */
-
+// AHB need more than 14.2Mhz
 void peripheral_device_init(void *descriptor_ptr) {
     device_descriptor_t *device_descriptor_ptr =
         (device_descriptor_t *)descriptor_ptr;
+    // GPIO & OTG FS peripheral enable
+    // GPIOA pin PA8 FS_SOF PA10 FS_ID PA11 FS_DM PA12 FS_DP
+    RCC_AHB1_ENR |= (1 << 31) | (1 << 0);
+    // AHB2 bit7 OTGFS 
+    RCC_AHB2_ENR |= (1<<7);
+    // GPIOA alternate setting PA11 DM PA12 DP
+    GPIO_MODER(GPIOA_BASE) = (2<<22)|(2<<24);
+    GPIO_AFRH(GPIOA_BASE) = (10<<11)|(10<<12);
+
     FS_DCFG |= FULL_SPEED;
     FS_INTMSK |= USB_DEVICE_INT;
     FS_GCCFG = (1 << 19);
-    while (FS_INTSTS & (1 << 12) == 0)
+    while ((FS_INTSTS & (1 << 12)) == 0)
         ;
-    while (FS_INTSTS & (1 << 13) == 0)
+    while ((FS_INTSTS & (1 << 13)) == 0)
         ;
     FS_DIEPCTL0 = ((FS_DIEPCTL0 & (~0x7ff)) |
                    (device_descriptor_ptr->b_max_packet_size & 0x7ff));
 }
 /**
- * @name endpoint_activation  
+ * @name endpoint_activation
  * @brief
- * - Program the characteristics of the required endpoint into the 
- *   following fields of the OTG_FS_DIEPCTLx register (for IN or bidirectional 
- *   endpoints) or the OTG_FS_DOEPCTLx register (for OUT or bidirectional endpoints).
+ * - Program the characteristics of the required endpoint into the
+ *   following fields of the OTG_FS_DIEPCTLx register (for IN or bidirectional
+ *   endpoints) or the OTG_FS_DOEPCTLx register (for OUT or bidirectional
+ * endpoints).
  *      - Maximum packet size
  *      - USB active endpoint = 1
  *      - Endpoint start data toggle (for interrupt and bulk endpoints)
  *      - Endpoint type
  *      - TxFIFO number
- * - Once the endpoint is activated, the core starts decoding the tokens addressed 
- *   to that endpoint and sends out a valid handshake for each valid token received 
- *   for the endpoint.
- * 
+ * - Once the endpoint is activated, the core starts decoding the tokens
+ * addressed to that endpoint and sends out a valid handshake for each valid
+ * token received for the endpoint.
+ *
  */
-void endpoint_activation(uint8_t endpoint_num,void *device_ptr,void *config_ptr){
-    
-
-}
+void endpoint_activation(uint8_t endpoint_num, void *device_ptr,
+                         void *config_ptr) {}
 void in_tran() {}
 void out_packet() {}
 
-void rx_packet_in_fifo(){
-
-}
-
+void rx_packet_in_fifo() {}

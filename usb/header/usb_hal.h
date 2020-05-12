@@ -11,4 +11,6 @@ typedef struct  __usb_device{
     void* interface_descriptor;
 } usb_device_t;
 #pragma pack(pop)
+void usb_device_init();
+
 #endif

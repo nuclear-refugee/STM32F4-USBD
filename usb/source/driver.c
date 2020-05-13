@@ -1,4 +1,19 @@
 #include "../header/driver.h"
+void peripheral_core_init() {
+    // GPIO & OTG FS peripheral enable
+    // GPIOA pin PA8 FS_SOF PA10 FS_ID PA11 FS_DM PA12 FS_DP
+    RCC_AHB1_ENR |= (1 << 31) | (1 << 0);
+    // AHB2 bit7 OTGFS
+    RCC_AHB2_ENR |= (1 << 7);
+    // GPIOA alternate setting PA11 DM PA12 DP
+    GPIO_MODER(GPIOA_BASE) = (2 << 22) | (2 << 24);
+    GPIO_AFRH(GPIOA_BASE) = (10 << 11) | (10 << 12);
+    FS_AHBCFG |= GINTMSK;
+    FS_INTSTS |= RXFLVL | PTXFE;
+    FS_USBCFG |= HNP | SRP | FS_TIMEOUT(6) | USB_TURNAROUND_TIME(4);
+    FS_INTMSK |= OTG_INT_MSK | MODE_MISMATCH_INT_MSK;
+}
+
 /**
  * @name peripheral_device_init
  * @brief
@@ -36,18 +51,13 @@
  *   and perform control transfers on control endpoint 0.
  */
 // AHB need more than 14.2Mhz
-void peripheral_device_init(void *descriptor_ptr) {
+uint8_t peripheral_device_init(void *descriptor_ptr) {
     device_descriptor_t *device_descriptor_ptr =
         (device_descriptor_t *)descriptor_ptr;
-    // GPIO & OTG FS peripheral enable
-    // GPIOA pin PA8 FS_SOF PA10 FS_ID PA11 FS_DM PA12 FS_DP
-    RCC_AHB1_ENR |= (1 << 31) | (1 << 0);
-    // AHB2 bit7 OTGFS 
-    RCC_AHB2_ENR |= (1<<7);
-    // GPIOA alternate setting PA11 DM PA12 DP
-    GPIO_MODER(GPIOA_BASE) = (2<<22)|(2<<24);
-    GPIO_AFRH(GPIOA_BASE) = (10<<11)|(10<<12);
-
+    //  CMOD bit0 value 1: host mode 0: device mode
+    if (FS_INTSTS & (1 << 0)) {
+        return 0;
+    }
     FS_DCFG |= FULL_SPEED;
     FS_INTMSK |= USB_DEVICE_INT;
     FS_GCCFG = (1 << 19);
@@ -57,6 +67,7 @@ void peripheral_device_init(void *descriptor_ptr) {
         ;
     FS_DIEPCTL0 = ((FS_DIEPCTL0 & (~0x7ff)) |
                    (device_descriptor_ptr->b_max_packet_size & 0x7ff));
+    return 1;
 }
 /**
  * @name endpoint_activation

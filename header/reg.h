@@ -21,7 +21,7 @@
 #define SWHSI    (0 << 0)
 #define SWHSE    (1 << 0)
 #define SWPLL    (2 << 0)
-// HSE 8 Mhz
+// HSE 8 Mhz in discover board
 // f(VCO clock) = f(PLL clock input) × (PLLN / PLLM)
 // f(PLL general clock output) = f(VCO clock) / PLLP
 // f(USB OTG FS, SDIO, RNG clock output) = f(VCO clock) / PLLQ
@@ -63,13 +63,30 @@
 
 /*************************USB OTG_FS related*******************************/
 
-#define FS_OTGCTL     (__REG(USB_OTG_FS_BASE + 0x000))
-#define FS_OTGINT     (__REG(USB_OTG_FS_BASE + 0x004))
-#define FS_AHBCFG     (__REG(USB_OTG_FS_BASE + 0x008))
-#define FS_USBCFG     (__REG(USB_OTG_FS_BASE + 0x00C))
-#define FS_RSTCTL     (__REG(USB_OTG_FS_BASE + 0x010))
-#define FS_INTSTS     (__REG(USB_OTG_FS_BASE + 0x014))
-#define FS_INTMSK     (__REG(USB_OTG_FS_BASE + 0x018))
+#define FS_OTGCTL              (__REG(USB_OTG_FS_BASE + 0x000))
+#define FS_OTGINT              (__REG(USB_OTG_FS_BASE + 0x004))
+#define FS_AHBCFG              (__REG(USB_OTG_FS_BASE + 0x008))
+#define GINTMSK                (1 << 0)
+#define FS_USBCFG              (__REG(USB_OTG_FS_BASE + 0x00C))
+#define HNP                    (1 << 9)
+#define SRP                    (1 << 8)
+#define FS_TIMEOUT(x)          (x << 0)
+#define USB_TURNAROUND_TIME(x) (x << 10)
+#define FS_RSTCTL              (__REG(USB_OTG_FS_BASE + 0x010))
+#define FS_INTSTS              (__REG(USB_OTG_FS_BASE + 0x014))
+#define RXFLVL                 (1 << 4)
+#define PTXFE                  (1 << 26)
+#define FS_INTMSK              (__REG(USB_OTG_FS_BASE + 0x018))
+#define OTG_INT_MSK            (1 << 2)
+#define MODE_MISMATCH_INT_MSK  (1 << 1)
+#define INT_ENUM_DONE          (1 << 13)
+#define INT_USB_RESET          (1 << 12)
+#define INT_EARLY_SUSPEND      (1 << 10)
+#define INT_USB_SUSPEND        (1 << 11)
+#define INT_SOF                (1 << 3)
+#define USB_DEVICE_INT                                                     \
+    (INT_ENUM_DONE | INT_USB_RESET | INT_EARLY_SUSPEND | INT_USB_SUSPEND | \
+     INT_SOF)
 #define FS_RXSTSR     (__REG(USB_OTG_FS_BASE + 0x01C))
 #define FS_RXSTSPR    (__REG(USB_OTG_FS_BASE + 0x020))
 #define FS_RXFSIZ     (__REG(USB_OTG_FS_BASE + 0x024))
@@ -121,6 +138,7 @@
 #define FS_HCTSIZ6    (__REG(USB_OTG_FS_BASE + 0x5D0))
 #define FS_HCTSIZ7    (__REG(USB_OTG_FS_BASE + 0x5F0))
 #define FS_DCFG       (__REG(USB_OTG_FS_BASE + 0x800))
+#define FULL_SPEED    (1 << 1) | (1 << 0)
 #define FS_DCTL       (__REG(USB_OTG_FS_BASE + 0x804))
 #define FS_DSTS       (__REG(USB_OTG_FS_BASE + 0x808))
 #define FS_DIEPMSK    (__REG(USB_OTG_FS_BASE + 0x810))

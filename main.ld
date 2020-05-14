@@ -12,7 +12,7 @@ SECTIONS
         KEEP(*(.isr_vector))
         *(.text)
         *(.text.*)
-        *(.rodata)
+        *(.rodata .rodata.*)
         _endtext = .;
     }>FLASH
     .data : AT(_endtext)

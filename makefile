@@ -8,10 +8,11 @@ CFLAG = -std=gnu99 \
 TARGET := ./main.bin
 SOURCE := ./source/*.c
 USB := ./usb/source/*.c
+INCDIR := -Iusb/source/
 
 all: $(TARGET)
-$(TARGET):$(SOURCE) $(USB)
-	$(CC) $(CFLAG)  -o main.elf  $^
+$(TARGET):$(SOURCE) $(USB) 
+	$(CC) $(INCDIR) $(CFLAG)  -o main.elf  $^
 	$(CROSS_COMPILER)objcopy -Obinary main.elf $(TARGET)
 	$(CROSS_COMPILER)objdump -x -S main.elf > main.list
 	@echo "build complete"

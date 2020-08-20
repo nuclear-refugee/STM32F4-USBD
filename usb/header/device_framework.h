@@ -46,7 +46,24 @@
 #pragma pack(push)
 #pragma pack(1)
 /**********************************************/
-
+typedef enum __usb_state{
+    ATTACHED,
+    POWERED,
+    RX_RESET,
+    DEFAULT,
+    ADDRESS,
+    CONFIGURED,
+    SUSPENDED,
+    RESET,
+    HUB_CONFIGURED,
+    HUB_DECONFIGURED,
+    BUS_INACTVE,
+    ADDRESS_ASSIGNED,
+    DEVICE_CONFIG,
+    DEVICE_DECONFIG,
+    BUS_ACTIVE,
+    POWER_INTERRUPT
+} usb_state;
 //setup
 typedef struct __device_request_t {
     uint8_t  bm_request_type;
@@ -62,7 +79,7 @@ typedef struct ___device_descriptor_t {
     uint8_t  b_device_class;
     uint8_t  b_device_subclass;
     uint8_t  b_device_protocol;
-    uint8_t  b_maxpacketsize0;
+    uint8_t  b_max_packet_size;
     uint16_t id_vendor;
     uint16_t id_product;
     uint16_t bcdDevice;
@@ -81,7 +98,7 @@ typedef struct __configuration_descriptor_t{
     uint8_t  i_configuration;
     uint8_t  bm_attributes;
     uint8_t  b_maxpower;
-}configuration_desciptor_t;
+}configuration_descriptor_t;
 
 typedef struct __interface_descriptor_t {
     uint8_t b_length;   
@@ -100,10 +117,15 @@ typedef struct __endpoint_descriptor_t {
     uint8_t  b_descriptor_type;
     uint8_t  b_endpoint_address;
     uint8_t  bm_attributes;
-    uint16_t w_maxpacketsize;
+    uint16_t w_max_packet_size;
     uint8_t  b_interval;
 }endpoint_descriptor_t;
 
-
 #pragma pack(pop)
+extern device_descriptor_t usb_device_descriptor;
+extern interface_descriptor_t interface_descriptor ;
+extern endpoint_descriptor_t endpoint1_descriptor ;
+extern endpoint_descriptor_t endpoint2_descriptor ;
+extern endpoint_descriptor_t endpoint3_descriptor ;
+extern configuration_descriptor_t usb_configuration_descriptor ;
 #endif

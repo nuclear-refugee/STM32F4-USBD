@@ -9,12 +9,16 @@ extern uint32_t _enddata;
 extern uint32_t _startbss;
 extern uint32_t _endbss;
 extern uint32_t _estack;
+// HSE osc 8.0Mhz
 void init_core_clk(void) {
     RCC_CR |= PLL_ON | (1 << 16) | (1 << 19);
     while ((!(RCC_CR & (1 << 17))) || (!(RCC_CR & (1 << 25))))
         ;
     RCC_PLLCFGR = (1 << 22) | (PLLM(5)) | (PLLN(60)) | (PLLQ(2)) | (PLLP(2));
-    RCC_CFGR = 1;
+    // PLL 48Mhz
+    RCC_CFGR = SWPLL|(6<<10);
+    // set system clock to PLL 48Mhz 
+    // APB prescale to 8 Mhz, UART can use 8 Mhz input calculate baudrate
 }
 
 extern int main(void);

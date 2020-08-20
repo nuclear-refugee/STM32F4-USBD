@@ -1,4 +1,5 @@
 .vscode/
+*.json
 *.o 
 *.bin 
 *.elf 
